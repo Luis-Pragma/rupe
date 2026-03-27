@@ -1,0 +1,23 @@
+{
+  "name": "@rupe/database",
+  "version": "0.0.1",
+  "private": true,
+  "exports": {
+    "./schema": "./src/schema.ts",
+    "./types": "./src/types.ts",
+    "./client": "./src/client.ts"
+  },
+  "scripts": {
+    "db:push": "drizzle-kit push",
+    "db:generate": "drizzle-kit generate",
+    "db:studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.41.0",
+    "postgres": "^3.4.5"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.30.0",
+    "typescript": "^5"
+  }
+}
