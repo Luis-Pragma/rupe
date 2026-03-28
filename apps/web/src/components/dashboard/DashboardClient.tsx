@@ -5,12 +5,28 @@ import { useRouter } from "next/navigation";
 import { Home, Zap, Users, User, Plus, Flame, Trophy, TrendingUp } from "lucide-react";
 import RupeLogo from "@/components/RupeLogo";
 
+const CATEGORIA_EMOJIS: Record<string, string> = {
+  content: "🎬", finance: "💰", learning: "📚", social: "🤝", health: "⚡",
+};
+
+function tiempoDesde(fecha: string): string {
+  const segundos = Math.floor((Date.now() - new Date(fecha).getTime()) / 1000);
+  if (segundos < 60) return "ahora";
+  if (segundos < 3600) return `${Math.floor(segundos / 60)}m`;
+  if (segundos < 86400) return `${Math.floor(segundos / 3600)}h`;
+  return `${Math.floor(segundos / 86400)}d`;
+}
+
+interface Actividad { id: string; title: string; category: string; xp_earned: number; created_at: string }
+
 interface Props {
   fullName: string;
   username: string;
   xp: number;
   level: number;
   streakDays: number;
+  actividadesHoy: number;
+  actividadesRecientes: Actividad[];
 }
 
 const NIVELES = [
@@ -90,7 +106,7 @@ function XPRing({ progreso, xp }: { progreso: number; xp: number }) {
   );
 }
 
-export default function DashboardClient({ fullName, username, xp, level, streakDays }: Props) {
+export default function DashboardClient({ fullName, username, xp, level, streakDays, actividadesHoy, actividadesRecientes }: Props) {
   const [visible, setVisible] = useState(false);
   const [navActivo, setNavActivo] = useState("home");
   const router = useRouter();
@@ -243,7 +259,7 @@ export default function DashboardClient({ fullName, username, xp, level, streakD
               </span>
             </div>
             <p style={{ color: "#63B528", fontSize: 32, fontWeight: 700, margin: 0, lineHeight: 1 }}>
-              0
+              {actividadesHoy}
             </p>
             <p style={{ color: "rgba(240,240,236,0.3)", fontSize: 11, marginTop: 4 }}>
               actividades
@@ -274,8 +290,35 @@ export default function DashboardClient({ fullName, username, xp, level, streakD
           Registrar actividad de hoy
         </button>
 
+        {/* ── Insignias shortcut ── */}
+        <button
+          onClick={() => router.push("/insignias")}
+          style={{
+            marginTop: 12,
+            width: "100%",
+            backgroundColor: "transparent",
+            border: "1px solid rgba(45,90,45,0.3)",
+            borderRadius: 14,
+            padding: "12px 16px",
+            display: "flex", alignItems: "center", justifyContent: "space-between",
+            cursor: "pointer",
+            color: "#F0F0EC",
+            ...delay(270),
+            transition: `opacity 0.5s ease 270ms, transform 0.5s ease 270ms`,
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <span style={{ fontSize: 20 }}>🏆</span>
+            <div style={{ textAlign: "left" }}>
+              <p style={{ color: "#F0F0EC", fontSize: 13, fontWeight: 600, margin: 0 }}>Mis Insignias</p>
+              <p style={{ color: "rgba(240,240,236,0.4)", fontSize: 11, margin: 0 }}>Ver logros desbloqueados</p>
+            </div>
+          </div>
+          <span style={{ color: "rgba(240,240,236,0.3)", fontSize: 18 }}>›</span>
+        </button>
+
         {/* ── Feed / Actividad reciente ── */}
-        <div style={{ marginTop: 24, ...delay(300) }}>
+        <div style={{ marginTop: 20, ...delay(300) }}>
           <p style={{
             color: "rgba(240,240,236,0.5)", fontSize: 12,
             textTransform: "uppercase", letterSpacing: 2, marginBottom: 12,
@@ -283,29 +326,66 @@ export default function DashboardClient({ fullName, username, xp, level, streakD
             Actividad reciente
           </p>
 
-          {/* Empty state */}
-          <div style={{
-            backgroundColor: "#0F1A0F",
-            borderRadius: 16,
-            border: "1px solid rgba(45,90,45,0.2)",
-            padding: "32px 20px",
-            textAlign: "center",
-          }}>
+          {actividadesRecientes.length === 0 ? (
             <div style={{
-              width: 48, height: 48, borderRadius: "50%",
-              backgroundColor: "rgba(99,181,40,0.08)",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              margin: "0 auto 12px",
+              backgroundColor: "#0F1A0F",
+              borderRadius: 16,
+              border: "1px solid rgba(45,90,45,0.2)",
+              padding: "32px 20px",
+              textAlign: "center",
             }}>
-              <Zap size={22} color="rgba(99,181,40,0.4)" />
+              <div style={{
+                width: 48, height: 48, borderRadius: "50%",
+                backgroundColor: "rgba(99,181,40,0.08)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                margin: "0 auto 12px",
+              }}>
+                <Zap size={22} color="rgba(99,181,40,0.4)" />
+              </div>
+              <p style={{ color: "rgba(240,240,236,0.5)", fontSize: 14, margin: 0 }}>
+                Aún no hay actividades
+              </p>
+              <p style={{ color: "rgba(240,240,236,0.25)", fontSize: 12, marginTop: 4 }}>
+                Registra tu primera actividad y empieza a acumular XP
+              </p>
             </div>
-            <p style={{ color: "rgba(240,240,236,0.5)", fontSize: 14, margin: 0 }}>
-              Aún no hay actividades
-            </p>
-            <p style={{ color: "rgba(240,240,236,0.25)", fontSize: 12, marginTop: 4 }}>
-              Registra tu primera actividad y empieza a acumular XP
-            </p>
-          </div>
+          ) : (
+            actividadesRecientes.map((act, i) => (
+              <div key={act.id} style={{
+                backgroundColor: "#0F1A0F",
+                borderRadius: 14,
+                border: "1px solid rgba(45,90,45,0.2)",
+                padding: "12px 14px",
+                marginBottom: 8,
+                display: "flex", alignItems: "center", gap: 12,
+                opacity: visible ? 1 : 0,
+                transition: `opacity 0.4s ease ${0.35 + i * 0.06}s`,
+              }}>
+                <div style={{
+                  width: 36, height: 36, borderRadius: 10,
+                  backgroundColor: "rgba(99,181,40,0.1)",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontSize: 16, flexShrink: 0,
+                }}>
+                  {CATEGORIA_EMOJIS[act.category] ?? "⚡"}
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{
+                    color: "#F0F0EC", fontSize: 13, fontWeight: 600, margin: 0,
+                    overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
+                  }}>
+                    {act.title}
+                  </p>
+                  <p style={{ color: "rgba(240,240,236,0.35)", fontSize: 11, margin: "2px 0 0" }}>
+                    {tiempoDesde(act.created_at)}
+                  </p>
+                </div>
+                <span style={{ color: "#63B528", fontSize: 12, fontWeight: 700, flexShrink: 0 }}>
+                  +{act.xp_earned} XP
+                </span>
+              </div>
+            ))
+          )}
         </div>
       </div>
 

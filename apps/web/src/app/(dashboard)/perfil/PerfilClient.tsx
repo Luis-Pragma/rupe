@@ -369,6 +369,40 @@ export default function PerfilClient({
           </div>
         )}
 
+        {/* ── Accesos rápidos ── */}
+        {!esPublico && (
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 14, ...delay(240) }}>
+            <button
+              onClick={() => router.push("/insignias")}
+              style={{
+                backgroundColor: "#0F1A0F", border: "1px solid rgba(255,215,0,0.2)",
+                borderRadius: 14, padding: "14px 12px", cursor: "pointer",
+                display: "flex", alignItems: "center", gap: 10, textAlign: "left",
+              }}
+            >
+              <span style={{ fontSize: 22 }}>🏆</span>
+              <div>
+                <p style={{ color: "#F0F0EC", fontSize: 12, fontWeight: 600, margin: 0 }}>Insignias</p>
+                <p style={{ color: "rgba(240,240,236,0.35)", fontSize: 10, margin: "2px 0 0" }}>Ver logros</p>
+              </div>
+            </button>
+            <button
+              onClick={() => router.push("/racha-compartida")}
+              style={{
+                backgroundColor: "#0F1A0F", border: "1px solid rgba(239,159,39,0.2)",
+                borderRadius: 14, padding: "14px 12px", cursor: "pointer",
+                display: "flex", alignItems: "center", gap: 10, textAlign: "left",
+              }}
+            >
+              <span style={{ fontSize: 22 }}>🔥</span>
+              <div>
+                <p style={{ color: "#F0F0EC", fontSize: 12, fontWeight: 600, margin: 0 }}>Racha Compartida</p>
+                <p style={{ color: "rgba(240,240,236,0.35)", fontSize: 10, margin: "2px 0 0" }}>Con un amigo</p>
+              </div>
+            </button>
+          </div>
+        )}
+
         {/* ── Progreso por categoría ── */}
         <div style={{ marginTop: 16, ...delay(260) }}>
           <p style={{

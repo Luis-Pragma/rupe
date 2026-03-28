@@ -45,7 +45,7 @@ export default function TrackerClient({ actividades: inicial, xpHoy, techo }: Pr
   const [mostrarForm, setMostrarForm] = useState(false);
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("");
   const [mostrarPrueba, setMostrarPrueba] = useState(false);
-  const [resultado, setResultado] = useState<{ xpGanado: number; techoAlcanzado: boolean; nivelNuevo: boolean } | null>(null);
+  const [resultado, setResultado] = useState<{ xpGanado: number; techoAlcanzado: boolean; nivelNuevo: boolean; insigniasNuevas?: string[] } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const [visible, setVisible] = useState(false);
@@ -82,6 +82,7 @@ export default function TrackerClient({ actividades: inicial, xpHoy, techo }: Pr
           xpGanado: res.xpGanado!,
           techoAlcanzado: res.techoAlcanzado!,
           nivelNuevo: res.nivelNuevo!,
+          insigniasNuevas: res.insigniasNuevas ?? [],
         });
         setXpGanadoHoy(prev => Math.min(techo, prev + res.xpGanado!));
         // Añadir al feed local sin recargar
@@ -180,6 +181,11 @@ export default function TrackerClient({ actividades: inicial, xpHoy, techo }: Pr
                 +{resultado.xpGanado} XP
                 {resultado.techoAlcanzado && " · Techo diario alcanzado"}
               </p>
+              {resultado.insigniasNuevas && resultado.insigniasNuevas.length > 0 && (
+                <p style={{ color: "#FFD700", fontSize: 12, margin: "4px 0 0", fontWeight: 600 }}>
+                  🏆 ¡Nueva insignia!: {resultado.insigniasNuevas.join(", ")}
+                </p>
+              )}
             </div>
           </div>
         )}
