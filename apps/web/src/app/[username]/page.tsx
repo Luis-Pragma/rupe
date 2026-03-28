@@ -6,6 +6,7 @@ import PerfilClient from "@/app/(dashboard)/perfil/PerfilClient";
 const RUTAS_RESERVADAS = [
   "dashboard", "perfil", "tracker", "comunidades",
   "onboarding", "insignias", "racha-compartida", "configuracion",
+  "buscar", "admin",
   "login", "registro", "recuperar-contrasena", "auth",
 ];
 

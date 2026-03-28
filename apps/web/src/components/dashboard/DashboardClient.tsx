@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Home, Zap, Users, User, Plus, Flame, Trophy, TrendingUp } from "lucide-react";
+import { Home, Zap, Users, User, Plus, Flame, Trophy, TrendingUp, Search } from "lucide-react";
 import RupeLogo from "@/components/RupeLogo";
 import { cerrarSesion } from "@/app/(dashboard)/configuracion/actions";
 
@@ -143,6 +143,18 @@ export default function DashboardClient({ fullName, username, xp, level, streakD
         }}>
           RUPE
         </span>
+        {/* Búsqueda */}
+        <button
+          onClick={() => router.push("/buscar")}
+          style={{
+            background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)",
+            borderRadius: 10, padding: "8px 10px", cursor: "pointer",
+            color: "rgba(240,240,236,0.5)", display: "flex", alignItems: "center",
+            marginRight: -4,
+          }}
+        >
+          <Search size={17} />
+        </button>
         {/* Avatar con menú */}
         <div style={{ position: "relative" }}>
           <div
