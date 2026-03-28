@@ -1,12 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Loader2 } from "lucide-react";
 
 export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="bg-white dark:bg-rupe-dark rounded-2xl shadow-lg p-8 border border-rupe-light dark:border-rupe-deep"><div className="h-64 animate-pulse bg-rupe-light/20 rounded-lg" /></div>}>
+      <LoginForm />
+    </Suspense>
+  );
+}
+
+function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get("redirectTo") || "/dashboard";
@@ -44,6 +52,7 @@ export default function LoginPage() {
 
   return (
     <div className="bg-white dark:bg-rupe-dark rounded-2xl shadow-lg p-8 border border-rupe-light dark:border-rupe-deep">
+
       <h2 className="text-2xl font-semibold text-foreground mb-6">
         Inicia sesión
       </h2>
