@@ -2,12 +2,24 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { notFound } from "next/navigation";
 import PerfilClient from "@/app/(dashboard)/perfil/PerfilClient";
 
+// Rutas del dashboard que nunca deben ser capturadas por [username]
+const RUTAS_RESERVADAS = [
+  "dashboard", "perfil", "tracker", "comunidades",
+  "onboarding", "insignias", "racha-compartida",
+  "login", "registro", "recuperar-contrasena", "auth",
+];
+
 interface Props {
   params: Promise<{ username: string }>;
 }
 
 export async function generateMetadata({ params }: Props) {
   const { username } = await params;
+
+  if (RUTAS_RESERVADAS.includes(username.toLowerCase())) {
+    return { title: "RUPE" };
+  }
+
   const admin = createAdminClient();
   const { data } = await admin
     .from("users")
@@ -24,6 +36,12 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function PerfilPublicoPage({ params }: Props) {
   const { username } = await params;
+
+  // Si es una ruta reservada del dashboard, no procesar como username
+  if (RUTAS_RESERVADAS.includes(username.toLowerCase())) {
+    notFound();
+  }
+
   const admin = createAdminClient();
 
   // Primero obtenemos el usuario por username
