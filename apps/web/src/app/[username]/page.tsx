@@ -5,7 +5,7 @@ import PerfilClient from "@/app/(dashboard)/perfil/PerfilClient";
 // Rutas del dashboard que nunca deben ser capturadas por [username]
 const RUTAS_RESERVADAS = [
   "dashboard", "perfil", "tracker", "comunidades",
-  "onboarding", "insignias", "racha-compartida",
+  "onboarding", "insignias", "racha-compartida", "configuracion",
   "login", "registro", "recuperar-contrasena", "auth",
 ];
 
