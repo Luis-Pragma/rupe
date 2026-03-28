@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Home, Zap, Users, User, Plus, Flame, Trophy, TrendingUp } from "lucide-react";
 import RupeLogo from "@/components/RupeLogo";
+import { cerrarSesion } from "@/app/(dashboard)/configuracion/actions";
 
 const CATEGORIA_EMOJIS: Record<string, string> = {
   content: "🎬", finance: "💰", learning: "📚", social: "🤝", health: "⚡",
@@ -109,6 +110,7 @@ function XPRing({ progreso, xp }: { progreso: number; xp: number }) {
 export default function DashboardClient({ fullName, username, xp, level, streakDays, actividadesHoy, actividadesRecientes }: Props) {
   const [visible, setVisible] = useState(false);
   const [navActivo, setNavActivo] = useState("home");
+  const [menuAbierto, setMenuAbierto] = useState(false);
   const router = useRouter();
   const { nivelActual, nivelSig, progreso, xpParaSiguiente } = getNivelInfo(xp);
 
@@ -141,15 +143,97 @@ export default function DashboardClient({ fullName, username, xp, level, streakD
         }}>
           RUPE
         </span>
-        {/* Avatar placeholder */}
-        <div style={{
-          width: 36, height: 36, borderRadius: "50%",
-          backgroundColor: "#1A2B1A",
-          border: "2px solid #63B528",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          cursor: "pointer",
-        }}>
-          <User size={16} color="#63B528" />
+        {/* Avatar con menú */}
+        <div style={{ position: "relative" }}>
+          <div
+            onClick={() => setMenuAbierto(prev => !prev)}
+            style={{
+              width: 36, height: 36, borderRadius: "50%",
+              backgroundColor: "#1A2B1A",
+              border: "2px solid #63B528",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              cursor: "pointer",
+              fontSize: 15, fontWeight: 700, color: "#63B528",
+              userSelect: "none",
+            }}
+          >
+            {fullName?.charAt(0)?.toUpperCase() ?? "?"}
+          </div>
+
+          {/* Dropdown */}
+          {menuAbierto && (
+            <>
+              {/* Overlay para cerrar */}
+              <div
+                onClick={() => setMenuAbierto(false)}
+                style={{ position: "fixed", inset: 0, zIndex: 98 }}
+              />
+              <div style={{
+                position: "absolute", top: 44, right: 0,
+                backgroundColor: "#0F1A0F",
+                border: "1px solid rgba(45,90,45,0.4)",
+                borderRadius: 14,
+                overflow: "hidden",
+                zIndex: 99,
+                minWidth: 180,
+                boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
+              }}>
+                {/* Info */}
+                <div style={{
+                  padding: "12px 16px 10px",
+                  borderBottom: "1px solid rgba(45,90,45,0.2)",
+                }}>
+                  <p style={{ color: "#F0F0EC", fontSize: 13, fontWeight: 600, margin: 0 }}>
+                    {fullName}
+                  </p>
+                  <p style={{ color: "rgba(240,240,236,0.35)", fontSize: 11, margin: "2px 0 0" }}>
+                    @{username}
+                  </p>
+                </div>
+
+                {/* Opciones */}
+                {[
+                  { emoji: "👤", label: "Mi perfil", ruta: "/perfil" },
+                  { emoji: "⚙️", label: "Configuración", ruta: "/configuracion" },
+                ].map(({ emoji, label, ruta }) => (
+                  <button
+                    key={ruta}
+                    onClick={() => { setMenuAbierto(false); router.push(ruta); }}
+                    style={{
+                      width: "100%", background: "none", border: "none",
+                      padding: "11px 16px", cursor: "pointer",
+                      display: "flex", alignItems: "center", gap: 10,
+                      color: "#F0F0EC", fontSize: 13,
+                      borderBottom: "1px solid rgba(45,90,45,0.1)",
+                      textAlign: "left",
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.backgroundColor = "rgba(99,181,40,0.08)"}
+                    onMouseLeave={e => e.currentTarget.style.backgroundColor = "transparent"}
+                  >
+                    <span>{emoji}</span>
+                    {label}
+                  </button>
+                ))}
+
+                {/* Cerrar sesión */}
+                <button
+                  onClick={() => { setMenuAbierto(false); cerrarSesion(); }}
+                  style={{
+                    width: "100%", background: "none", border: "none",
+                    padding: "11px 16px", cursor: "pointer",
+                    display: "flex", alignItems: "center", gap: 10,
+                    color: "#F87171", fontSize: 13,
+                    textAlign: "left",
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.backgroundColor = "rgba(248,113,113,0.08)"}
+                  onMouseLeave={e => e.currentTarget.style.backgroundColor = "transparent"}
+                >
+                  <span>🚪</span>
+                  Cerrar sesión
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </div>
 
