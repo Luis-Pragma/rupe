@@ -1,21 +1,35 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 
-export default function SplashScreen() {
-  const router = useRouter();
+// Flag de módulo: se resetea en cada hard refresh (el runtime JS se reinicia),
+// pero persiste en navegaciones client-side (soft nav) — así el splash no se repite.
+let splashHasPlayed = false;
+
+export default function SplashOverlay() {
+  const [visible, setVisible] = useState(false);
   const [salida, setSalida] = useState(false);
+  const [desmontado, setDesmontado] = useState(false);
 
   useEffect(() => {
+    if (splashHasPlayed) return;
+    splashHasPlayed = true;
+    setVisible(true);
     const t1 = setTimeout(() => setSalida(true), 3000);
-    const t2 = setTimeout(() => router.push("/login"), 3600);
-    return () => { clearTimeout(t1); clearTimeout(t2); };
-  }, [router]);
+    const t2 = setTimeout(() => setDesmontado(true), 3600);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      // Reset para React Strict Mode (doble invocación en dev)
+      splashHasPlayed = false;
+    };
+  }, []);
+
+  if (!visible || desmontado) return null;
 
   return (
     <div style={{
-      position: "fixed", inset: 0,
+      position: "fixed", inset: 0, zIndex: 9999,
       backgroundColor: "#0D1117",
       display: "flex", flexDirection: "column",
       alignItems: "center", justifyContent: "center",
@@ -23,6 +37,7 @@ export default function SplashScreen() {
       opacity: salida ? 0 : 1,
       transform: salida ? "scale(1.03)" : "scale(1)",
       transition: salida ? "opacity 0.6s ease, transform 0.6s ease" : "none",
+      pointerEvents: salida ? "none" : "auto",
     }}>
 
       {/* ── Ícono ── */}

@@ -1,6 +1,7 @@
-import SplashScreen from "@/components/SplashScreen";
+import { redirect } from "next/navigation";
 
-// Página de inicio — muestra el splash screen animado y redirige al login
+// El splash screen ahora está en el root layout (SplashOverlay) y aparece en todas las páginas.
+// Esta ruta solo redirige al login como punto de entrada.
 export default function HomePage() {
-  return <SplashScreen />;
+  redirect("/login");
 }

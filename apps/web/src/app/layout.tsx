@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import SplashOverlay from "@/components/SplashOverlay";
 
 export const metadata: Metadata = {
   title: "RUPE — Tu progreso, tu identidad.",
@@ -15,6 +16,7 @@ export default function RootLayout({
   return (
     <html lang="es" className="h-full antialiased">
       <body className="min-h-full flex flex-col bg-background text-foreground">
+        <SplashOverlay />
         {children}
       </body>
     </html>
