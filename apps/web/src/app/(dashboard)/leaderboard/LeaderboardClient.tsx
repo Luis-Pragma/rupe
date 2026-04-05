@@ -144,7 +144,7 @@ export default function LeaderboardClient({ leaderboard, userId, miPosicion, miX
           }}>
             {/* 2do lugar */}
             {top3[1] && (
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, flex: 1 }}>
+              <div onClick={() => router.push(`/@${top3[1].username}`)} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, flex: 1, cursor: "pointer" }}>
                 <div style={{
                   width: 44, height: 44, borderRadius: "50%",
                   backgroundColor: "#1A2B1A",
@@ -174,7 +174,7 @@ export default function LeaderboardClient({ leaderboard, userId, miPosicion, miX
 
             {/* 1er lugar */}
             {top3[0] && (
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, flex: 1 }}>
+              <div onClick={() => router.push(`/@${top3[0].username}`)} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, flex: 1, cursor: "pointer" }}>
                 <div style={{
                   width: 52, height: 52, borderRadius: "50%",
                   backgroundColor: "#1A2B1A",
@@ -205,7 +205,7 @@ export default function LeaderboardClient({ leaderboard, userId, miPosicion, miX
 
             {/* 3er lugar */}
             {top3[2] && (
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, flex: 1 }}>
+              <div onClick={() => router.push(`/@${top3[2].username}`)} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, flex: 1, cursor: "pointer" }}>
                 <div style={{
                   width: 40, height: 40, borderRadius: "50%",
                   backgroundColor: "#1A2B1A",

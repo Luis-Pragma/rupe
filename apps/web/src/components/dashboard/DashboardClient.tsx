@@ -320,13 +320,21 @@ export default function DashboardClient({ fullName, username, xp, level, streakD
           gap: 12, marginTop: 12,
           ...delay(200),
         }}>
-          {/* Racha */}
-          <div style={{
-            backgroundColor: "#0F1A0F",
-            borderRadius: 16,
-            border: "1px solid rgba(239,159,39,0.2)",
-            padding: "16px",
-          }}>
+          {/* Racha — clickable */}
+          <button
+            onClick={() => router.push("/racha-compartida")}
+            style={{
+              backgroundColor: "#0F1A0F",
+              borderRadius: 16,
+              border: "1px solid rgba(239,159,39,0.2)",
+              padding: "16px",
+              cursor: "pointer",
+              textAlign: "left",
+              transition: "border-color 0.2s ease",
+            }}
+            onMouseEnter={e => e.currentTarget.style.borderColor = "rgba(239,159,39,0.5)"}
+            onMouseLeave={e => e.currentTarget.style.borderColor = "rgba(239,159,39,0.2)"}
+          >
             <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
               <Flame size={16} color="#EF9F27" />
               <span style={{ color: "rgba(240,240,236,0.4)", fontSize: 11, letterSpacing: 1, textTransform: "uppercase" }}>
@@ -339,15 +347,23 @@ export default function DashboardClient({ fullName, username, xp, level, streakD
             <p style={{ color: "rgba(240,240,236,0.3)", fontSize: 11, marginTop: 4 }}>
               días consecutivos
             </p>
-          </div>
+          </button>
 
-          {/* Actividades */}
-          <div style={{
-            backgroundColor: "#0F1A0F",
-            borderRadius: 16,
-            border: "1px solid rgba(45,90,45,0.3)",
-            padding: "16px",
-          }}>
+          {/* Actividades — clickable */}
+          <button
+            onClick={() => router.push("/tracker")}
+            style={{
+              backgroundColor: "#0F1A0F",
+              borderRadius: 16,
+              border: "1px solid rgba(45,90,45,0.3)",
+              padding: "16px",
+              cursor: "pointer",
+              textAlign: "left",
+              transition: "border-color 0.2s ease",
+            }}
+            onMouseEnter={e => e.currentTarget.style.borderColor = "rgba(99,181,40,0.5)"}
+            onMouseLeave={e => e.currentTarget.style.borderColor = "rgba(45,90,45,0.3)"}
+          >
             <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
               <TrendingUp size={16} color="#63B528" />
               <span style={{ color: "rgba(240,240,236,0.4)", fontSize: 11, letterSpacing: 1, textTransform: "uppercase" }}>
@@ -360,7 +376,7 @@ export default function DashboardClient({ fullName, username, xp, level, streakD
             <p style={{ color: "rgba(240,240,236,0.3)", fontSize: 11, marginTop: 4 }}>
               actividades
             </p>
-          </div>
+          </button>
         </div>
 
         {/* ── Acción principal ── */}
@@ -386,32 +402,41 @@ export default function DashboardClient({ fullName, username, xp, level, streakD
           Registrar actividad de hoy
         </button>
 
-        {/* ── Insignias shortcut ── */}
-        <button
-          onClick={() => router.push("/insignias")}
-          style={{
-            marginTop: 12,
-            width: "100%",
-            backgroundColor: "transparent",
-            border: "1px solid rgba(45,90,45,0.3)",
-            borderRadius: 14,
-            padding: "12px 16px",
-            display: "flex", alignItems: "center", justifyContent: "space-between",
-            cursor: "pointer",
-            color: "#F0F0EC",
-            ...delay(270),
-            transition: `opacity 0.5s ease 270ms, transform 0.5s ease 270ms`,
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <span style={{ fontSize: 20 }}>🏆</span>
-            <div style={{ textAlign: "left" }}>
-              <p style={{ color: "#F0F0EC", fontSize: 13, fontWeight: 600, margin: 0 }}>Mis Insignias</p>
-              <p style={{ color: "rgba(240,240,236,0.4)", fontSize: 11, margin: 0 }}>Ver logros desbloqueados</p>
+        {/* ── Shortcuts ── */}
+        {[
+          { emoji: "🏆", label: "Mis Insignias",      sub: "Ver logros desbloqueados",  ruta: "/insignias",        delay_ms: 270 },
+          { emoji: "🔥", label: "Racha Compartida",   sub: "Comparte tu racha",          ruta: "/racha-compartida", delay_ms: 300 },
+          { emoji: "📊", label: "Ranking Semanal",    sub: "Ver tu posición esta semana",ruta: "/leaderboard",      delay_ms: 330 },
+        ].map(({ emoji, label, sub, ruta, delay_ms }) => (
+          <button
+            key={ruta}
+            onClick={() => router.push(ruta)}
+            style={{
+              marginTop: 12,
+              width: "100%",
+              backgroundColor: "transparent",
+              border: "1px solid rgba(45,90,45,0.3)",
+              borderRadius: 14,
+              padding: "12px 16px",
+              display: "flex", alignItems: "center", justifyContent: "space-between",
+              cursor: "pointer",
+              color: "#F0F0EC",
+              ...delay(delay_ms),
+              transition: `border-color 0.2s ease, opacity 0.5s ease ${delay_ms}ms, transform 0.5s ease ${delay_ms}ms`,
+            }}
+            onMouseEnter={e => e.currentTarget.style.borderColor = "rgba(99,181,40,0.4)"}
+            onMouseLeave={e => e.currentTarget.style.borderColor = "rgba(45,90,45,0.3)"}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <span style={{ fontSize: 20 }}>{emoji}</span>
+              <div style={{ textAlign: "left" }}>
+                <p style={{ color: "#F0F0EC", fontSize: 13, fontWeight: 600, margin: 0 }}>{label}</p>
+                <p style={{ color: "rgba(240,240,236,0.4)", fontSize: 11, margin: 0 }}>{sub}</p>
+              </div>
             </div>
-          </div>
-          <span style={{ color: "rgba(240,240,236,0.3)", fontSize: 18 }}>›</span>
-        </button>
+            <span style={{ color: "rgba(240,240,236,0.3)", fontSize: 18 }}>›</span>
+          </button>
+        ))}
 
         {/* ── Feed / Actividad reciente ── */}
         <div style={{ marginTop: 20, ...delay(300) }}>
@@ -444,6 +469,21 @@ export default function DashboardClient({ fullName, username, xp, level, streakD
               <p style={{ color: "rgba(240,240,236,0.25)", fontSize: 12, marginTop: 4 }}>
                 Registra tu primera actividad y empieza a acumular XP
               </p>
+              <button
+                onClick={() => router.push("/tracker")}
+                style={{
+                  marginTop: 16,
+                  backgroundColor: "#63B528",
+                  border: "none",
+                  borderRadius: 10,
+                  padding: "10px 24px",
+                  color: "#fff",
+                  fontSize: 13, fontWeight: 600,
+                  cursor: "pointer",
+                }}
+              >
+                + Registrar actividad
+              </button>
             </div>
           ) : (
             actividadesRecientes.map((act, i) => (
