@@ -2,7 +2,7 @@
 
 import { useState, useTransition, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Zap, Plus, CheckCircle, Clock, Link, ChevronDown, X, ArrowLeft, Home, Users, User } from "lucide-react";
+import { Zap, Plus, CheckCircle, Clock, Link, ChevronDown, X, ArrowLeft, Home, Users, User, Trophy } from "lucide-react";
 import { registrarActividad } from "./actions";
 
 const CATEGORIAS = [
@@ -436,10 +436,11 @@ export default function TrackerClient({ actividades: inicial, xpHoy, techo }: Pr
         padding: "10px 0 16px",
       }}>
         {[
-          { id: "home",        icon: <Home size={22} />,  label: "Inicio",    ruta: "/dashboard" },
-          { id: "tracker",     icon: <Zap size={22} />,   label: "Tracker",   ruta: "/tracker" },
-          { id: "comunidades", icon: <Users size={22} />, label: "Comunidad", ruta: "/comunidades" },
-          { id: "perfil",      icon: <User size={22} />,  label: "Perfil",    ruta: "/perfil" },
+          { id: "home",        icon: <Home size={20} />,   label: "Inicio",    ruta: "/dashboard" },
+          { id: "tracker",     icon: <Zap size={20} />,   label: "Tracker",   ruta: "/tracker" },
+          { id: "leaderboard", icon: <Trophy size={20} />, label: "Ranking",   ruta: "/leaderboard" },
+          { id: "comunidades", icon: <Users size={20} />, label: "Comunidad", ruta: "/comunidades" },
+          { id: "perfil",      icon: <User size={20} />,  label: "Perfil",    ruta: "/perfil" },
         ].map(({ id, icon, label, ruta }) => (
           <button key={id}
             onClick={() => router.push(ruta)}

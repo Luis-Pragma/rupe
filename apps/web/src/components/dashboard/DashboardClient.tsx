@@ -495,10 +495,11 @@ export default function DashboardClient({ fullName, username, xp, level, streakD
         ...delay(400),
       }}>
         {[
-          { id: "home",        icon: <Home size={22} />,  label: "Inicio",     ruta: "/dashboard" },
-          { id: "tracker",     icon: <Zap size={22} />,   label: "Tracker",    ruta: "/tracker" },
-          { id: "comunidades", icon: <Users size={22} />, label: "Comunidad",  ruta: "/comunidades" },
-          { id: "perfil",      icon: <User size={22} />,  label: "Perfil",     ruta: "/perfil" },
+          { id: "home",        icon: <Home size={20} />,   label: "Inicio",    ruta: "/dashboard" },
+          { id: "tracker",     icon: <Zap size={20} />,   label: "Tracker",   ruta: "/tracker" },
+          { id: "leaderboard", icon: <Trophy size={20} />, label: "Ranking",   ruta: "/leaderboard" },
+          { id: "comunidades", icon: <Users size={20} />, label: "Comunidad", ruta: "/comunidades" },
+          { id: "perfil",      icon: <User size={20} />,  label: "Perfil",    ruta: "/perfil" },
         ].map(({ id, icon, label, ruta }) => (
           <button key={id}
             onClick={() => { setNavActivo(id); router.push(ruta); }}

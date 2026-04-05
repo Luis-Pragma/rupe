@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Home, Zap, Users, User, Lock } from "lucide-react";
+import { ArrowLeft, Home, Zap, Users, User, Lock, Trophy } from "lucide-react";
 
 const TODAS_INSIGNIAS = [
   // Contenido
@@ -338,10 +338,11 @@ export default function InsigniasClient({ achievements, userData, conteoCategori
         padding: "10px 0 16px",
       }}>
         {[
-          { icon: <Home size={22} />, label: "Inicio", ruta: "/dashboard" },
-          { icon: <Zap size={22} />, label: "Tracker", ruta: "/tracker" },
-          { icon: <Users size={22} />, label: "Comunidad", ruta: "/comunidades" },
-          { icon: <User size={22} />, label: "Perfil", ruta: "/perfil", activo: true },
+          { icon: <Home size={20} />,   label: "Inicio",    ruta: "/dashboard" },
+          { icon: <Zap size={20} />,    label: "Tracker",   ruta: "/tracker" },
+          { icon: <Trophy size={20} />, label: "Ranking",   ruta: "/leaderboard" },
+          { icon: <Users size={20} />,  label: "Comunidad", ruta: "/comunidades" },
+          { icon: <User size={20} />,   label: "Perfil",    ruta: "/perfil", activo: true },
         ].map(({ icon, label, ruta, activo }) => (
           <button key={ruta}
             onClick={() => router.push(ruta)}

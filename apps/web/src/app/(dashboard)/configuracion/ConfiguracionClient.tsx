@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import {
   ArrowLeft, User, LogOut, Shield, FileText, Lock,
   ChevronRight, Save, X, Home, Zap, Users,
-  MapPin, Link, MessageSquare, Sparkles,
+  MapPin, Link, MessageSquare, Sparkles, Trophy,
 } from "lucide-react";
 import { cerrarSesion, actualizarPerfil } from "./actions";
 
@@ -650,10 +650,11 @@ export default function ConfiguracionClient({ usuario }: Props) {
         padding: "10px 0 16px",
       }}>
         {[
-          { icon: <Home size={22} />, label: "Inicio", ruta: "/dashboard" },
-          { icon: <Zap size={22} />, label: "Tracker", ruta: "/tracker" },
-          { icon: <Users size={22} />, label: "Comunidad", ruta: "/comunidades" },
-          { icon: <User size={22} />, label: "Perfil", ruta: "/perfil", activo: true },
+          { icon: <Home size={20} />,   label: "Inicio",    ruta: "/dashboard" },
+          { icon: <Zap size={20} />,    label: "Tracker",   ruta: "/tracker" },
+          { icon: <Trophy size={20} />, label: "Ranking",   ruta: "/leaderboard" },
+          { icon: <Users size={20} />,  label: "Comunidad", ruta: "/comunidades" },
+          { icon: <User size={20} />,   label: "Perfil",    ruta: "/perfil", activo: true },
         ].map(({ icon, label, ruta, activo }) => (
           <button key={ruta}
             onClick={() => router.push(ruta)}

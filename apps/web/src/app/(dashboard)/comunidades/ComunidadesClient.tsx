@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Home, Zap, Users, User, Search, CheckCircle } from "lucide-react";
+import { Home, Zap, Users, User, Search, CheckCircle, Trophy } from "lucide-react";
 import { unirseComunidad, salirComunidad } from "./actions";
 
 const CATEGORIAS: Record<string, { emoji: string; color: string; bg: string }> = {
@@ -282,10 +282,11 @@ export default function ComunidadesClient({ comunidades, comunidadesUnidas, user
         padding: "10px 0 16px",
       }}>
         {[
-          { icon: <Home size={22} />, label: "Inicio", ruta: "/dashboard" },
-          { icon: <Zap size={22} />, label: "Tracker", ruta: "/tracker" },
-          { icon: <Users size={22} />, label: "Comunidad", ruta: "/comunidades", activo: true },
-          { icon: <User size={22} />, label: "Perfil", ruta: "/perfil" },
+          { icon: <Home size={20} />,   label: "Inicio",    ruta: "/dashboard" },
+          { icon: <Zap size={20} />,    label: "Tracker",   ruta: "/tracker" },
+          { icon: <Trophy size={20} />, label: "Ranking",   ruta: "/leaderboard" },
+          { icon: <Users size={20} />,  label: "Comunidad", ruta: "/comunidades", activo: true },
+          { icon: <User size={20} />,   label: "Perfil",    ruta: "/perfil" },
         ].map(({ icon, label, ruta, activo }) => (
           <button key={ruta}
             onClick={() => router.push(ruta)}
